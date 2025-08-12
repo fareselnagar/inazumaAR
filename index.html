@@ -29,6 +29,7 @@
             color: #f0f0f0;
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background-color 0.5s ease;
         }
         
         .header-gradient {
@@ -48,16 +49,34 @@
         
         .energy-glow {
             box-shadow: 0 0 15px rgba(247, 215, 22, 0.3);
+            transition: box-shadow 0.3s ease-in-out;
         }
-        
+
+        /* تصميم جديد لبطاقة الفيديو */
         .clip-card {
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
             transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            border: 2px solid transparent; /* إضافة حدود شفافة للبطاقة */
         }
         
         .clip-card:hover {
             transform: perspective(1000px) rotateX(2deg) rotateY(2deg) translateY(-8px);
             box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--accent); /* إظهار الحدود عند التحويم */
+            z-index: 10;
+        }
+
+        /* تصميم جديد لمشغل الفيديو */
+        .video-player-container {
+            border: 3px solid var(--accent); /* حدود بارزة بلون مميز */
+            box-shadow: 0 0 25px rgba(247, 215, 22, 0.5); /* ظل مضيء */
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: scale(1);
+        }
+        
+        .video-player-container:hover {
+            transform: scale(1.01);
+            box-shadow: 0 0 35px rgba(247, 215, 22, 0.8);
         }
         
         .video-wrapper {
@@ -72,6 +91,7 @@
             height: 100%;
             z-index: 1000;
             border-radius: 0;
+            padding: 0 !important;
         }
         
         .animate-float {
@@ -149,6 +169,19 @@
             font-weight: bold;
             border: 1px solid var(--accent);
         }
+
+        .cta-button {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 20px rgba(247, 215, 22, 0.4);
+        }
+
+        .header-title-glow {
+            text-shadow: 0 0 10px rgba(247, 215, 22, 0.6);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -161,7 +194,7 @@
                         <i class="fas fa-futbol text-xl text-gray-900"></i>
                     </div>
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-bold">أرشيف إينازوما إليفن</h1>
+                        <h1 class="text-2xl md:text-3xl font-bold header-title-glow">أرشيف إينازوما إليفن</h1>
                         <p class="text-sm text-yellow-200">أفضل اللقطات من النسخة العربية</p>
                     </div>
                 </div>
@@ -172,7 +205,7 @@
                 </div>
                 
                 <div class="flex gap-3">
-                    <button class="px-4 py-2 rounded-full bg-[#0f0f2a] hover:bg-yellow-500 hover:text-gray-900 transition-colors">
+                    <button class="px-4 py-2 rounded-full bg-[#0f0f2a] hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
                         <i class="fas fa-user mr-2"></i>تسجيل الدخول
                     </button>
                 </div>
@@ -183,57 +216,53 @@
     <!-- Main Content -->
     <main class="flex-1 py-8 px-4 md:px-8">
         <div class="max-w-7xl mx-auto">
-            <!-- Video Player Section -->
+            <!-- Video Player Section with enhanced design -->
             <section class="mb-12">
-                <div class="video-wrapper card-gradient rounded-2xl overflow-hidden shadow-2xl energy-border">
-                    <div class="p-5 border-b border-gray-700 flex justify-between items-center">
-                        <h2 class="text-xl md:text-2xl font-bold text-yellow-300">
-                            <i class="fas fa-play-circle mr-2"></i>اللقطة الحالية
-                        </h2>
-                        <div class="flex gap-2">
-                            <button id="fullscreen-btn" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
-                                <i class="fas fa-expand"></i>
-                            </button>
-                            <button id="share-btn" class="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
-                                <i class="fas fa-share-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="relative aspect-video">
-                        <div id="video-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1a4a] to-[#3a3a88] soccer-field">
-                            <div class="text-center mb-8">
-                                <i class="fas fa-play-circle text-6xl text-yellow-500 mb-4 animate-pulse"></i>
-                                <h3 class="text-2xl font-bold text-gray-300 mb-2">اختر لقطة لتشغيلها</h3>
-                                <p class="text-gray-400">استكشف أفضل اللقطات من عالم إينازوما إليفن</p>
-                            </div>
-                            <div class="flex gap-3">
-                                <div class="w-3 h-3 rounded-full bg-yellow-500 animate-bounce"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500 animate-bounce" style="animation-delay: 0.2s"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500 animate-bounce" style="animation-delay: 0.4s"></div>
-                            </div>
-                        </div>
-                        <video id="video-player" class="w-full h-full object-cover hidden" controls></video>
-                    </div>
-                    
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <h3 id="video-title" class="text-xl font-bold mb-2">اختر لقطة لعرض التفاصيل</h3>
-                                <div class="flex items-center gap-2 text-gray-400">
-                                    <span class="player-icon">
-                                        <i class="fas fa-user"></i>
-                                    </span>
-                                    <span id="video-character">غير محدد</span>
+                <div class="video-player-container card-gradient rounded-3xl overflow-hidden shadow-2xl p-6">
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <!-- Video Display Area -->
+                        <div class="md:w-3/5 w-full">
+                            <div class="relative aspect-video rounded-2xl overflow-hidden mb-4">
+                                <div id="video-placeholder" class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#1a1a4a] to-[#3a3a88] soccer-field">
+                                    <div class="text-center mb-8">
+                                        <i class="fas fa-play-circle text-6xl text-yellow-500 mb-4 animate-pulse"></i>
+                                        <h3 class="text-2xl font-bold text-gray-300 mb-2">اختر لقطة لتشغيلها</h3>
+                                        <p class="text-gray-400">استكشف أفضل اللقطات من عالم إينازوما إليفن</p>
+                                    </div>
+                                    <div class="flex gap-3">
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500 animate-bounce"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500 animate-bounce" style="animation-delay: 0.2s"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500 animate-bounce" style="animation-delay: 0.4s"></div>
+                                    </div>
                                 </div>
+                                <video id="video-player" class="w-full h-full object-cover hidden" controls></video>
                             </div>
-                            <a id="download-btn" href="#" class="px-4 py-2 rounded-full bg-[#0f0f2a] hover:bg-yellow-500 hover:text-gray-900 transition-colors">
-                                <i class="fas fa-download mr-2"></i>تحميل اللقطة
-                            </a>
+                            <p id="video-description" class="text-gray-300">
+                                اختر لقطة من الأسفل لعرض وصفها الكامل ومعلوماتها التفصيلية.
+                            </p>
                         </div>
-                        <p id="video-description" class="text-gray-300">
-                            اختر لقطة من الأسفل لعرض وصفها الكامل ومعلوماتها التفصيلية.
-                        </p>
+                        <!-- Video Info and Controls -->
+                        <div class="md:w-2/5 w-full flex flex-col">
+                            <h3 id="video-title" class="text-2xl font-bold mb-3 text-yellow-300">اختر لقطة لعرض التفاصيل</h3>
+                            <div class="flex items-center gap-2 text-gray-400 mb-4">
+                                <span class="player-icon">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <span id="video-character">غير محدد</span>
+                            </div>
+                            <!-- Action Buttons -->
+                            <div class="flex gap-3 mt-auto">
+                                <button id="fullscreen-btn" class="flex-1 py-3 px-4 rounded-full bg-gray-700 flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
+                                    <i class="fas fa-expand mr-2"></i>ملء الشاشة
+                                </button>
+                                <button id="share-btn" class="flex-1 py-3 px-4 rounded-full bg-gray-700 flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
+                                    <i class="fas fa-share-alt mr-2"></i>مشاركة
+                                </button>
+                                <a id="download-btn" href="#" class="flex-1 py-3 px-4 rounded-full bg-gray-700 flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
+                                    <i class="fas fa-download mr-2"></i>تحميل
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -246,7 +275,7 @@
                     </h2>
                     <div class="flex items-center gap-3">
                         <span class="text-gray-400">ترتيب حسب:</span>
-                        <select class="bg-[#0f0f2a] text-white rounded-full py-2 px-4 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500/50">
+                        <select class="bg-[#0f0f2a] text-white rounded-full py-2 px-4 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 transition-all">
                             <option>الأحدث</option>
                             <option>الأكثر مشاهدة</option>
                             <option>الأعلى تقييماً</option>
@@ -254,7 +283,6 @@
                     </div>
                 </div>
                 
-                <!-- تم إضافة id للحاوي لتمكين تحديث المحتوى من JS -->
                 <div id="clips-container" class="grid-layout">
                     <!-- سيتم إضافة اللقطات هنا بواسطة JavaScript -->
                 </div>
@@ -262,13 +290,13 @@
                 <!-- Pagination -->
                 <div class="flex justify-center mt-10">
                     <div class="flex gap-2">
-                        <button class="w-10 h-10 rounded-full bg-[#0f0f2a] flex items-center justify-center">
+                        <button class="w-10 h-10 rounded-full bg-[#0f0f2a] flex items-center justify-center cta-button">
                             <i class="fas fa-chevron-right"></i>
                         </button>
-                        <button class="w-10 h-10 rounded-full bg-yellow-500 text-gray-900 font-bold">1</button>
-                        <button class="w-10 h-10 rounded-full bg-[#0f0f2a] flex items-center justify-center">2</button>
-                        <button class="w-10 h-10 rounded-full bg-[#0f0f2a] flex items-center justify-center">3</button>
-                        <button class="w-10 h-10 rounded-full bg-[#0f0f2a] flex items-center justify-center">
+                        <button class="w-10 h-10 rounded-full bg-yellow-500 text-gray-900 font-bold cta-button">1</button>
+                        <button class="w-10 h-10 rounded-full bg-[#0f0f2a] flex items-center justify-center cta-button">2</button>
+                        <button class="w-10 h-10 rounded-full bg-[#0f0f2a] flex items-center justify-center cta-button">3</button>
+                        <button class="w-10 h-10 rounded-full bg-[#0f0f2a] flex items-center justify-center cta-button">
                             <i class="fas fa-chevron-left"></i>
                         </button>
                     </div>
@@ -282,16 +310,16 @@
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <div>
-                    <h3 class="text-xl font-bold mb-4 text-yellow-300">أرشيف إينازوما إليفن</h3>
+                    <h3 class="text-xl font-bold mb-4 text-yellow-300 header-title-glow">أرشيف إينازوما إليفن</h3>
                     <p class="text-gray-400 mb-4">مرجع شامل للقطات الأكثر إثارة من النسخة العربية لمسلسل إينازوما إليفن.</p>
                     <div class="flex gap-3">
-                        <a id="youtube-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
+                        <a id="youtube-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
                             <i class="fab fa-youtube"></i>
                         </a>
-                        <a id="twitter-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
+                        <a id="twitter-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a id="discord-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
+                        <a id="discord-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
                             <i class="fab fa-discord"></i>
                         </a>
                     </div>
@@ -311,8 +339,8 @@
                     <h4 class="text-lg font-bold mb-4">النشرة البريدية</h4>
                     <p class="text-gray-400 mb-4">اشترك ليصلك جديد اللقطات أولا بأول</p>
                     <div class="flex">
-                        <input type="email" placeholder="بريدك الإلكتروني" class="flex-1 py-2 px-4 rounded-l-full bg-[#1a1a4a] text-white focus:outline-none">
-                        <button class="bg-yellow-500 text-gray-900 px-4 rounded-r-full font-medium hover:bg-yellow-400 transition-colors">
+                        <input type="email" placeholder="بريدك الإلكتروني" class="flex-1 py-2 px-4 rounded-l-full bg-[#1a1a4a] text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 transition-all">
+                        <button class="bg-yellow-500 text-gray-900 px-4 rounded-r-full font-medium hover:bg-yellow-400 transition-colors cta-button">
                             اشترك
                         </button>
                     </div>
@@ -326,34 +354,34 @@
     </footer>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-yellow-500 text-gray-900 shadow-lg flex items-center justify-center transition-all opacity-0 invisible hover:scale-110">
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-yellow-500 text-gray-900 shadow-lg flex items-center justify-center transition-all opacity-0 invisible hover:scale-110 cta-button">
         <i class="fas fa-arrow-up"></i>
     </button>
 
     <!-- Share Modal -->
-    <div id="share-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center hidden">
-        <div class="bg-[#1a1a4a] rounded-xl p-6 max-w-md w-full mx-4">
+    <div id="share-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center hidden transition-opacity duration-300">
+        <div class="bg-[#1a1a4a] rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold text-yellow-300">مشاركة اللقطة</h3>
-                <button id="close-share-modal" class="text-gray-400 hover:text-white">
+                <button id="close-share-modal" class="text-gray-400 hover:text-white transition-colors">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <p class="text-gray-300 mb-4">اختر طريقة لمشاركة هذه اللقطة مع أصدقائك:</p>
             <div class="grid grid-cols-2 gap-4">
-                <button id="share-whatsapp" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
+                <button id="share-whatsapp" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-all cta-button">
                     <i class="fab fa-whatsapp text-3xl text-green-500 mb-2"></i>
                     <span>واتساب</span>
                 </button>
-                <button id="share-twitter" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
+                <button id="share-twitter" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-all cta-button">
                     <i class="fab fa-twitter text-3xl text-blue-400 mb-2"></i>
                     <span>تويتر</span>
                 </button>
-                <button id="share-facebook" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
+                <button id="share-facebook" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-all cta-button">
                     <i class="fab fa-facebook text-3xl text-blue-600 mb-2"></i>
                     <span>فيسبوك</span>
                 </button>
-                <button id="copy-link" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
+                <button id="copy-link" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-all cta-button">
                     <i class="fas fa-link text-3xl text-yellow-500 mb-2"></i>
                     <span>نسخ الرابط</span>
                 </button>
@@ -365,30 +393,29 @@
     </div>
 
     <!-- Modal for showing messages/alerts -->
-    <div id="message-modal" class="fixed inset-0 bg-black/80 z-[10000] flex items-center justify-center hidden">
+    <div id="message-modal" class="fixed inset-0 bg-black/80 z-[10000] flex items-center justify-center hidden transition-opacity duration-300">
         <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 text-center border-2 border-yellow-500">
             <h3 id="message-title" class="text-xl font-bold text-yellow-300 mb-2"></h3>
             <p id="message-content" class="text-gray-200 mb-4"></p>
-            <button id="close-message-modal" class="px-6 py-2 bg-yellow-500 text-gray-900 rounded-full font-bold hover:bg-yellow-400 transition-colors">إغلاق</button>
+            <button id="close-message-modal" class="px-6 py-2 bg-yellow-500 text-gray-900 rounded-full font-bold hover:bg-yellow-400 transition-colors cta-button">إغلاق</button>
         </div>
     </div>
 
     <script>
         // بيانات اللقطات
-        // ملاحظة: تم تعديل المسار ليكون اسم الملف فقط، حيث ستقوم بوضعه بجانب ملف HTML مباشرةً
         const videoClips = [
             {
                 name: "الهجمة النجمية لمارك",
-                file: "clip1.mp4", // المسار الآن هو اسم الملف فقط
-                thumbnail: "https://placehold.co/400x225/1a1a4a/f7d716?text=Star+Attack",
+                file: "clip1.mp4", 
+                thumbnail: "thumb1.jpg", 
                 description: "لحظة تاريخية عندما أطلق مارك إيفانز هجومه النجمي الشهير ضد فريق الإمبراطور، مشهد لا ينسى من المواجهات الأولى.",
                 character: "مارك إيفانز",
-                download: "clip1.mp4" // المسار هنا أيضاً هو اسم الملف فقط
+                download: "clip1.mp4" 
             },
             {
                 name: "ضربة التنين الأسطورية",
                 file: "clip2.mp4",
-                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=Dragon+Crash",
+                thumbnail: "thumb2.jpg",
                 description: "كابتن فريق التنين يطلق ضربته القوية التي تهز الشباك بقوة، تقنية تظهر براعة اللاعبين في عالم إينازوما.",
                 character: "كابتن فريق التنين",
                 download: "clip2.mp4"
@@ -396,7 +423,7 @@
             {
                 name: "العاصفة المدمرة لأكسيل",
                 file: "clip3.mp4",
-                thumbnail: "https://placehold.co/400x225/1a1a4a/f7d716?text=Fire+Tornado",
+                thumbnail: "thumb3.jpg",
                 description: "أكسيل بلاز يطلق تقنيته الخاصة العاصفة المدمرة، واحدة من أقوى التقنيات الفردية في المسلسل.",
                 character: "أكسيل بلاز",
                 download: "clip3.mp4"
@@ -404,7 +431,7 @@
             {
                 name: "حاجز الزمرد الخارق",
                 file: "clip4.mp4",
-                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=Emerald+Barrier",
+                thumbnail: "thumb4.jpg",
                 description: "دارين لايتي يحمي مرماه بحاجز الزمرد الأسطوري، مشهد يظهر قوة الحراس في عالم كرة القدم الخارقة.",
                 character: "دارين لايتي",
                 download: "clip4.mp4"
@@ -412,7 +439,7 @@
             {
                 name: "الطيور النجمية الجماعية",
                 file: "clip5.mp4",
-                thumbnail: "https://placehold.co/400x225/1a1a4a/f7d716?text=Star+Birds",
+                thumbnail: "thumb5.jpg",
                 description: "التقنية المشتركة للفريق ضد خصوم أقوياء، تعاون رائع بين اللاعبين يؤدي إلى هدف مذهل.",
                 character: "فريق ريونوسكي",
                 download: "clip5.mp4"
@@ -420,7 +447,7 @@
             {
                 name: "اليد الخارقة لشون",
                 file: "clip6.mp4",
-                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=God+Hand",
+                thumbnail: "thumb6.jpg",
                 description: "شون فوليو يثبت مهاراته الفريدة بتقنية اليد الخارقة، مشهد يظهر تطور شخصيته خلال المسلسل.",
                 character: "شون فوليو",
                 download: "clip6.mp4"
@@ -477,7 +504,7 @@
             videoPlayer.src = clip.file;
             videoPlayer.play();
             
-            // إضافة تأثير بسيط، تم استبدال الكلاسات غير الموجودة بكلاس موجود
+            // إضافة تأثير بسيط
             videoTitle.classList.add('animate-pulse-glow');
             setTimeout(() => {
                 videoTitle.classList.remove('animate-pulse-glow');
@@ -487,12 +514,11 @@
         // دالة لإنشاء بطاقة فيديو
         function createClipCard(clip, index) {
             const clipCard = document.createElement('div');
-            clipCard.classList.add('clip-card', 'card-gradient', 'rounded-2xl', 'overflow-hidden', 'shadow-xl', 'energy-glow');
+            clipCard.classList.add('clip-card', 'card-gradient', 'rounded-2xl', 'overflow-hidden', 'shadow-xl', 'energy-glow', 'cursor-pointer');
             
-            // استخدام البيانات الديناميكية لإنشاء المحتوى
             clipCard.innerHTML = `
-                <div class="relative aspect-video cursor-pointer" onclick="playVideo(${index})">
-                    <img src="${clip.thumbnail}" alt="Thumbnail for ${clip.name}" class="w-full h-full object-cover">
+                <div class="relative aspect-video" onclick="playVideo(${index})">
+                    <img src="${clip.thumbnail}" alt="Thumbnail for ${clip.name}" class="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110">
                     <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                         <i class="fas fa-play text-4xl text-yellow-500"></i>
                     </div>
@@ -579,13 +605,13 @@
 
         // زر ملء الشاشة
         fullscreenBtn.addEventListener('click', function() {
-            const videoWrapper = document.querySelector('.video-wrapper');
+            const videoWrapper = document.querySelector('.video-player-container');
             videoWrapper.classList.toggle('expanded');
             
             if (videoWrapper.classList.contains('expanded')) {
-                this.innerHTML = '<i class="fas fa-compress"></i>';
+                this.innerHTML = '<i class="fas fa-compress mr-2"></i>خروج من ملء الشاشة';
             } else {
-                this.innerHTML = '<i class="fas fa-expand"></i>';
+                this.innerHTML = '<i class="fas fa-expand mr-2"></i>ملء الشاشة';
             }
         });
 
