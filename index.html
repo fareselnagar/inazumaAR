@@ -396,12 +396,12 @@
     </div>
 
     <script>
-        // بيانات اللقطات
+        // بيانات اللقطات مع إضافة صور مصغّرة مخصصة
         const videoClips = [
             {
                 name: "الهجمة النجمية لمارك",
                 file: "clip1.mp4", 
-                thumbnail: "thumb1.jpg", 
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=لقطة+1",
                 description: "لحظة تاريخية عندما أطلق مارك إيفانز هجومه النجمي الشهير ضد فريق الإمبراطور، مشهد لا ينسى من المواجهات الأولى.",
                 character: "مارك إيفانز",
                 download: "clip1.mp4" 
@@ -409,7 +409,7 @@
             {
                 name: "ضربة التنين الأسطورية",
                 file: "clip2.mp4",
-                thumbnail: "thumb2.jpg",
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=لقطة+2",
                 description: "كابتن فريق التنين يطلق ضربته القوية التي تهز الشباك بقوة، تقنية تظهر براعة اللاعبين في عالم إينازوما.",
                 character: "كابتن فريق التنين",
                 download: "clip2.mp4"
@@ -417,7 +417,7 @@
             {
                 name: "العاصفة المدمرة لأكسيل",
                 file: "clip3.mp4",
-                thumbnail: "thumb3.jpg",
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=لقطة+3",
                 description: "أكسيل بلاز يطلق تقنيته الخاصة العاصفة المدمرة، واحدة من أقوى التقنيات الفردية في المسلسل.",
                 character: "أكسيل بلاز",
                 download: "clip3.mp4"
@@ -425,7 +425,7 @@
             {
                 name: "حاجز الزمرد الخارق",
                 file: "clip4.mp4",
-                thumbnail: "thumb4.jpg",
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=لقطة+4",
                 description: "دارين لايتي يحمي مرماه بحاجز الزمرد الأسطوري، مشهد يظهر قوة الحراس في عالم كرة القدم الخارقة.",
                 character: "دارين لايتي",
                 download: "clip4.mp4"
@@ -433,7 +433,7 @@
             {
                 name: "الطيور النجمية الجماعية",
                 file: "clip5.mp4",
-                thumbnail: "thumb5.jpg",
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=لقطة+5",
                 description: "التقنية المشتركة للفريق ضد خصوم أقوياء، تعاون رائع بين اللاعبين يؤدي إلى هدف مذهل.",
                 character: "فريق ريونوسكي",
                 download: "clip5.mp4"
@@ -441,7 +441,7 @@
             {
                 name: "اليد الخارقة لشون",
                 file: "clip6.mp4",
-                thumbnail: "thumb6.jpg",
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=لقطة+6",
                 description: "شون فوليو يثبت مهاراته الفريدة بتقنية اليد الخارقة، مشهد يظهر تطور شخصيته خلال المسلسل.",
                 character: "شون فوليو",
                 download: "clip6.mp4"
@@ -488,6 +488,10 @@
             videoPlayer.src = clip.file;
             videoPlayer.play();
             
+            // تحريك سلس إلى مشغل الفيديو
+            const videoPlayerContainer = document.querySelector('.video-player-container');
+            videoPlayerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
             // إضافة تأثير بسيط
             videoTitle.classList.add('animate-pulse-glow');
             setTimeout(() => {
