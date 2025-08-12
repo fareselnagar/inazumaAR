@@ -167,7 +167,7 @@
                 </div>
                 
                 <div class="relative w-full md:w-96">
-                    <input type="text" placeholder="ابحث عن لقطة أو شخصية..." class="w-full py-3 px-5 pr-12 rounded-full bg-[#0f0f2a] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 transition-all">
+                    <input id="search-input" type="text" placeholder="ابحث عن لقطة أو شخصية..." class="w-full py-3 px-5 pr-12 rounded-full bg-[#0f0f2a] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 transition-all">
                     <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
                 </div>
                 
@@ -254,126 +254,9 @@
                     </div>
                 </div>
                 
-                <div class="grid-layout">
-                    <!-- Clip 1 -->
-                    <div class="clip-card card-gradient rounded-2xl overflow-hidden shadow-xl energy-glow">
-                        <div class="relative aspect-video cursor-pointer" onclick="playVideo(0)">
-                            <div class="bg-gray-700 w-full h-full flex items-center justify-center">
-                                <div class="text-center">
-                                    <i class="fas fa-play text-3xl text-yellow-500 mb-2"></i>
-                                    <p class="text-sm">الهجمة النجمية</p>
-                                </div>
-                            </div>
-                            <div class="clip-badge">
-                                <i class="fas fa-star mr-1"></i> مميزة
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">الهجمة النجمية لمارك</h3>
-                            <p class="text-gray-400 text-sm mb-3">لحظة تاريخية من المواجهات الأولى لفريق ريونوسكي</p>
-                            <div class="flex justify-between items-center text-sm">
-                                <span class="text-yellow-400"><i class="fas fa-user mr-1"></i> مارك إيفانز</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Clip 2 -->
-                    <div class="clip-card card-gradient rounded-2xl overflow-hidden shadow-xl energy-glow">
-                        <div class="relative aspect-video cursor-pointer" onclick="playVideo(1)">
-                            <div class="bg-gray-700 w-full h-full flex items-center justify-center">
-                                <div class="text-center">
-                                    <i class="fas fa-play text-3xl text-yellow-500 mb-2"></i>
-                                    <p class="text-sm">ضربة التنين</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">ضربة التنين الأسطورية</h3>
-                            <p class="text-gray-400 text-sm mb-3">تقنية قوية من كابتن فريق التنين</p>
-                            <div class="flex justify-between items-center text-sm">
-                                <span class="text-yellow-400"><i class="fas fa-user mr-1"></i> كابتن فريق التنين</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Clip 3 -->
-                    <div class="clip-card card-gradient rounded-2xl overflow-hidden shadow-xl energy-glow">
-                        <div class="relative aspect-video cursor-pointer" onclick="playVideo(2)">
-                            <div class="bg-gray-700 w-full h-full flex items-center justify-center">
-                                <div class="text-center">
-                                    <i class="fas fa-play text-3xl text-yellow-500 mb-2"></i>
-                                    <p class="text-sm">العاصفة المدمرة</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">العاصفة المدمرة لأكسيل</h3>
-                            <p class="text-gray-400 text-sm mb-3">واحدة من أقوى التقنيات الفردية في المسلسل</p>
-                            <div class="flex justify-between items-center text-sm">
-                                <span class="text-yellow-400"><i class="fas fa-user mr-1"></i> أكسيل بلاز</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Clip 4 -->
-                    <div class="clip-card card-gradient rounded-2xl overflow-hidden shadow-xl energy-glow">
-                        <div class="relative aspect-video cursor-pointer" onclick="playVideo(3)">
-                            <div class="bg-gray-700 w-full h-full flex items-center justify-center">
-                                <div class="text-center">
-                                    <i class="fas fa-play text-3xl text-yellow-500 mb-2"></i>
-                                    <p class="text-sm">حاجز الزمرد</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">حاجز الزمرد الخارق</h3>
-                            <p class="text-gray-400 text-sm mb-3">دارن لايتي يحمي مرماه بتقنية خارقة</p>
-                            <div class="flex justify-between items-center text-sm">
-                                <span class="text-yellow-400"><i class="fas fa-user mr-1"></i> دارين لايتي</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Clip 5 -->
-                    <div class="clip-card card-gradient rounded-2xl overflow-hidden shadow-xl energy-glow">
-                        <div class="relative aspect-video cursor-pointer" onclick="playVideo(4)">
-                            <div class="bg-gray-700 w-full h-full flex items-center justify-center">
-                                <div class="text-center">
-                                    <i class="fas fa-play text-3xl text-yellow-500 mb-2"></i>
-                                    <p class="text-sm">الطيور النجمية</p>
-                                </div>
-                            </div>
-                            <div class="clip-badge">
-                                <i class="fas fa-users mr-1"></i> جماعية
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">الطيور النجمية الجماعية</h3>
-                            <p class="text-gray-400 text-sm mb-3">تعاون رائع بين اللاعبين يؤدي إلى هدف مذهل</p>
-                            <div class="flex justify-between items-center text-sm">
-                                <span class="text-yellow-400"><i class="fas fa-users mr-1"></i> فريق ريونوسكي</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Clip 6 -->
-                    <div class="clip-card card-gradient rounded-2xl overflow-hidden shadow-xl energy-glow">
-                        <div class="relative aspect-video cursor-pointer" onclick="playVideo(5)">
-                            <div class="bg-gray-700 w-full h-full flex items-center justify-center">
-                                <div class="text-center">
-                                    <i class="fas fa-play text-3xl text-yellow-500 mb-2"></i>
-                                    <p class="text-sm">اليد الخارقة</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-bold text-lg mb-2">اليد الخارقة لشون</h3>
-                            <p class="text-gray-400 text-sm mb-3">شون فوليو يثبت مهاراته الفريدة</p>
-                            <div class="flex justify-between items-center text-sm">
-                                <span class="text-yellow-400"><i class="fas fa-user mr-1"></i> شون فوليو</span>
-                            </div>
-                        </div>
-                    </div>
+                <!-- تم إضافة id للحاوي لتمكين تحديث المحتوى من JS -->
+                <div id="clips-container" class="grid-layout">
+                    <!-- سيتم إضافة اللقطات هنا بواسطة JavaScript -->
                 </div>
                 
                 <!-- Pagination -->
@@ -402,13 +285,13 @@
                     <h3 class="text-xl font-bold mb-4 text-yellow-300">أرشيف إينازوما إليفن</h3>
                     <p class="text-gray-400 mb-4">مرجع شامل للقطات الأكثر إثارة من النسخة العربية لمسلسل إينازوما إليفن.</p>
                     <div class="flex gap-3">
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
+                        <a id="youtube-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
                             <i class="fab fa-youtube"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
+                        <a id="twitter-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
+                        <a id="discord-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors">
                             <i class="fab fa-discord"></i>
                         </a>
                     </div>
@@ -458,15 +341,15 @@
             </div>
             <p class="text-gray-300 mb-4">اختر طريقة لمشاركة هذه اللقطة مع أصدقائك:</p>
             <div class="grid grid-cols-2 gap-4">
-                <button class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
+                <button id="share-whatsapp" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
                     <i class="fab fa-whatsapp text-3xl text-green-500 mb-2"></i>
                     <span>واتساب</span>
                 </button>
-                <button class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
+                <button id="share-twitter" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
                     <i class="fab fa-twitter text-3xl text-blue-400 mb-2"></i>
                     <span>تويتر</span>
                 </button>
-                <button class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
+                <button id="share-facebook" class="share-option bg-[#0f0f2a] p-4 rounded-xl flex flex-col items-center justify-center hover:bg-[#2a2a6b] transition-colors">
                     <i class="fab fa-facebook text-3xl text-blue-600 mb-2"></i>
                     <span>فيسبوك</span>
                 </button>
@@ -481,56 +364,66 @@
         </div>
     </div>
 
+    <!-- Modal for showing messages/alerts -->
+    <div id="message-modal" class="fixed inset-0 bg-black/80 z-[10000] flex items-center justify-center hidden">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 text-center border-2 border-yellow-500">
+            <h3 id="message-title" class="text-xl font-bold text-yellow-300 mb-2"></h3>
+            <p id="message-content" class="text-gray-200 mb-4"></p>
+            <button id="close-message-modal" class="px-6 py-2 bg-yellow-500 text-gray-900 rounded-full font-bold hover:bg-yellow-400 transition-colors">إغلاق</button>
+        </div>
+    </div>
+
     <script>
-        // بيانات اللقطات - يجب تحديثها لتناسب ملفاتك
+        // بيانات اللقطات
+        // ملاحظة: تم تعديل المسار ليكون اسم الملف فقط، حيث ستقوم بوضعه بجانب ملف HTML مباشرةً
         const videoClips = [
             {
                 name: "الهجمة النجمية لمارك",
-                file: "clip1.mp4",        // يجب أن يتطابق مع اسم الملف في مجلد videos
-                thumbnail: "thumb1.jpg",   // يجب أن يتطابق مع اسم الملف في مجلد thumbnails
+                file: "clip1.mp4", // المسار الآن هو اسم الملف فقط
+                thumbnail: "https://placehold.co/400x225/1a1a4a/f7d716?text=Star+Attack",
                 description: "لحظة تاريخية عندما أطلق مارك إيفانز هجومه النجمي الشهير ضد فريق الإمبراطور، مشهد لا ينسى من المواجهات الأولى.",
                 character: "مارك إيفانز",
-                download: "videos/clip1.mp4" // رابط التحميل المباشر
+                download: "clip1.mp4" // المسار هنا أيضاً هو اسم الملف فقط
             },
             {
                 name: "ضربة التنين الأسطورية",
                 file: "clip2.mp4",
-                thumbnail: "thumb2.jpg",
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=Dragon+Crash",
                 description: "كابتن فريق التنين يطلق ضربته القوية التي تهز الشباك بقوة، تقنية تظهر براعة اللاعبين في عالم إينازوما.",
                 character: "كابتن فريق التنين",
-                download: "videos/clip2.mp4"
+                download: "clip2.mp4"
             },
             {
                 name: "العاصفة المدمرة لأكسيل",
                 file: "clip3.mp4",
-                thumbnail: "thumb3.jpg",
+                thumbnail: "https://placehold.co/400x225/1a1a4a/f7d716?text=Fire+Tornado",
                 description: "أكسيل بلاز يطلق تقنيته الخاصة العاصفة المدمرة، واحدة من أقوى التقنيات الفردية في المسلسل.",
                 character: "أكسيل بلاز",
-                download: "videos/clip3.mp4"
+                download: "clip3.mp4"
             },
             {
                 name: "حاجز الزمرد الخارق",
                 file: "clip4.mp4",
-                thumbnail: "thumb4.jpg",
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=Emerald+Barrier",
                 description: "دارين لايتي يحمي مرماه بحاجز الزمرد الأسطوري، مشهد يظهر قوة الحراس في عالم كرة القدم الخارقة.",
                 character: "دارين لايتي",
-                download: "videos/clip4.mp4"
+                download: "clip4.mp4"
             },
             {
                 name: "الطيور النجمية الجماعية",
                 file: "clip5.mp4",
-                thumbnail: "thumb5.jpg",
+                thumbnail: "https://placehold.co/400x225/1a1a4a/f7d716?text=Star+Birds",
                 description: "التقنية المشتركة للفريق ضد خصوم أقوياء، تعاون رائع بين اللاعبين يؤدي إلى هدف مذهل.",
                 character: "فريق ريونوسكي",
-                download: "videos/clip5.mp4"
+                download: "clip5.mp4"
             },
             {
                 name: "اليد الخارقة لشون",
                 file: "clip6.mp4",
-                thumbnail: "thumb6.jpg",
+                thumbnail: "https://placehold.co/400x225/3a3a88/f7d716?text=God+Hand",
                 description: "شون فوليو يثبت مهاراته الفريدة بتقنية اليد الخارقة، مشهد يظهر تطور شخصيته خلال المسلسل.",
                 character: "شون فوليو",
-                download: "videos/clip6.mp4"
+                download: "clip6.mp4"
             }
         ];
 
@@ -548,6 +441,21 @@
         const copySuccess = document.getElementById('copy-success');
         const fullscreenBtn = document.getElementById('fullscreen-btn');
         const backToTopBtn = document.getElementById('back-to-top');
+        const clipsContainer = document.getElementById('clips-container');
+        const searchInput = document.getElementById('search-input');
+        const messageModal = document.getElementById('message-modal');
+        const closeMessageModal = document.getElementById('close-message-modal');
+
+        // وظيفة لإظهار نافذة الرسائل
+        function showMessage(title, content) {
+            document.getElementById('message-title').textContent = title;
+            document.getElementById('message-content').textContent = content;
+            messageModal.classList.remove('hidden');
+        }
+
+        closeMessageModal.addEventListener('click', () => {
+            messageModal.classList.add('hidden');
+        });
 
         // دالة لتشغيل الفيديو
         function playVideo(index) {
@@ -564,15 +472,67 @@
             // إخفاء العنصر النائب وإظهار الفيديو
             videoPlaceholder.style.display = 'none';
             videoPlayer.style.display = 'block';
-            videoPlayer.src = `videos/${clip.file}`;
+            
+            // تأكد من تحديث مصدر الفيديو بشكل صحيح
+            videoPlayer.src = clip.file;
             videoPlayer.play();
             
-            // إضافة تأثير بسيط
-            videoTitle.classList.add('animate__animated', 'animate__pulse');
+            // إضافة تأثير بسيط، تم استبدال الكلاسات غير الموجودة بكلاس موجود
+            videoTitle.classList.add('animate-pulse-glow');
             setTimeout(() => {
-                videoTitle.classList.remove('animate__animated', 'animate__pulse');
-            }, 1000);
+                videoTitle.classList.remove('animate-pulse-glow');
+            }, 2000);
         }
+
+        // دالة لإنشاء بطاقة فيديو
+        function createClipCard(clip, index) {
+            const clipCard = document.createElement('div');
+            clipCard.classList.add('clip-card', 'card-gradient', 'rounded-2xl', 'overflow-hidden', 'shadow-xl', 'energy-glow');
+            
+            // استخدام البيانات الديناميكية لإنشاء المحتوى
+            clipCard.innerHTML = `
+                <div class="relative aspect-video cursor-pointer" onclick="playVideo(${index})">
+                    <img src="${clip.thumbnail}" alt="Thumbnail for ${clip.name}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                        <i class="fas fa-play text-4xl text-yellow-500"></i>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h3 class="font-bold text-lg mb-2">${clip.name}</h3>
+                    <p class="text-gray-400 text-sm mb-3">${clip.description}</p>
+                    <div class="flex justify-between items-center text-sm">
+                        <span class="text-yellow-400"><i class="fas fa-user mr-1"></i> ${clip.character}</span>
+                    </div>
+                </div>
+            `;
+            return clipCard;
+        }
+
+        // دالة لفلترة اللقطات وعرضها
+        function renderClips(clips) {
+            clipsContainer.innerHTML = ''; // مسح المحتوى الحالي
+            if (clips.length === 0) {
+                clipsContainer.innerHTML = '<p class="text-center text-gray-400 col-span-full">لا توجد لقطات مطابقة لنتائج البحث.</p>';
+                return;
+            }
+            clips.forEach((clip, index) => {
+                clipsContainer.appendChild(createClipCard(clip, index));
+            });
+        }
+        
+        // دالة البحث
+        function filterClips() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredClips = videoClips.filter(clip => 
+                clip.name.toLowerCase().includes(searchTerm) ||
+                clip.character.toLowerCase().includes(searchTerm) ||
+                clip.description.toLowerCase().includes(searchTerm)
+            );
+            renderClips(filteredClips);
+        }
+        
+        // ربط حدث الإدخال بدالة البحث
+        searchInput.addEventListener('input', filterClips);
 
         // فتح نافذة المشاركة
         shareBtn.addEventListener('click', function() {
@@ -583,6 +543,23 @@
         closeShareModal.addEventListener('click', function() {
             shareModal.classList.add('hidden');
             copySuccess.classList.add('hidden');
+        });
+
+        // إضافة وظائف لأزرار المشاركة
+        document.getElementById('share-whatsapp').addEventListener('click', () => {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://api.whatsapp.com/send?text=${url}`, '_blank');
+        });
+
+        document.getElementById('share-twitter').addEventListener('click', () => {
+            const text = encodeURIComponent(videoTitle.textContent);
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+        });
+
+        document.getElementById('share-facebook').addEventListener('click', () => {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
         });
 
         // نسخ رابط اللقطة
@@ -630,8 +607,11 @@
             });
         });
 
-        // بدء تشغيل أول فيديو عند التحميل
+        // عند تحميل الصفحة
         window.addEventListener('load', function() {
+            // عرض كل اللقطات في البداية
+            renderClips(videoClips);
+            
             // تشغيل أول فيديو بعد تأخير بسيط
             setTimeout(() => {
                 playVideo(0);
@@ -640,3 +620,4 @@
     </script>
 </body>
 </html>
+
