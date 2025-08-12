@@ -223,6 +223,7 @@
         /* أنماط جديدة لنافذة تسجيل الدخول */
         #login-modal {
             backdrop-filter: blur(10px);
+            transition: opacity 0.5s ease;
         }
         
         .login-container {
@@ -322,9 +323,9 @@
                     </div>
                     
                     <div class="flex gap-3">
-                        <button class="px-4 py-2 rounded-full bg-[#0f0f2a] hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button login-button-mobile">
-                            <i class="fas fa-user md:mr-2"></i>
-                            <span class="hidden md:inline">تسجيل الدخول</span>
+                        <button id="logout-button" class="px-4 py-2 rounded-full bg-[#0f0f2a] hover:bg-red-500 hover:text-white transition-colors cta-button login-button-mobile">
+                            <i class="fas fa-sign-out-alt md:mr-2"></i>
+                            <span class="hidden md:inline">تسجيل الخروج</span>
                         </button>
                     </div>
                 </div>
@@ -542,7 +543,7 @@
         const videoClips = [
             {
                 file: "clip1.mp4", 
-                thumbnail: "photo1.png", 
+                thumbnail: "photo1.jpg", 
                 character: "مارك إيفانز",
             },
             {
@@ -700,6 +701,8 @@
                 if (sendSuccess) {
                     // حفظ اسم المستخدم في localStorage للترحيب به لاحقاً
                     localStorage.setItem('inazuma-username', userData.username);
+                    // حفظ حالة تسجيل الدخول
+                    localStorage.setItem('inazuma-logged-in', 'true');
                     
                     // إخفاء نافذة التسجيل وإظهار المحتوى الرئيسي
                     loginModal.style.opacity = '0';
@@ -740,6 +743,7 @@
         const chatbotInput = document.getElementById('chatbot-input');
         const chatbotSendButton = document.getElementById('chatbot-send-button');
         const chatMessages = document.getElementById('chat-messages');
+        const logoutButton = document.getElementById('logout-button');
 
         // وظيفة لإظهار نافذة الرسائل
         function showMessage(title, content) {
@@ -906,17 +910,41 @@
             }
         });
 
+        // تسجيل الخروج
+        logoutButton.addEventListener('click', function() {
+            localStorage.removeItem('inazuma-logged-in');
+            localStorage.removeItem('inazuma-username');
+            location.reload();
+        });
+
         // عند تحميل الصفحة
         window.addEventListener('load', function() {
             renderClips(videoClips);
             
-            setTimeout(() => {
-                playVideo(0);
-            }, 1500);
-
-            // إظهار نافذة التسجيل فقط
-            loginModal.style.display = 'flex';
+            // التحقق من حالة تسجيل الدخول
+            const isLoggedIn = localStorage.getItem('inazuma-logged-in');
+            const userName = localStorage.getItem('inazuma-username');
+            
+            if (isLoggedIn === 'true') {
+                // إخفاء نافذة التسجيل
+                loginModal.style.display = 'none';
+                // إظهار المحتوى الرئيسي
+                mainContent.classList.remove('hidden');
+                
+                // عرض رسالة ترحيب إذا كان هناك اسم مستخدم
+                if (userName) {
+                    showWelcomeMessage(userName);
+                }
+                
+                // تشغيل الفيديو الأول بعد تأخير
+                setTimeout(() => {
+                    playVideo(0);
+                }, 1500);
+            } else {
+                // إظهار نافذة التسجيل فقط
+                loginModal.style.display = 'flex';
+            }
         });
     </script>
 </body>
-</html>
+    </html>
