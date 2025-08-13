@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>inazumaAR</title>
+    <title>inazumaAR | أفضل لقطات إينازوما إليفن</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -168,43 +168,45 @@
             text-shadow: 0 0 10px rgba(247, 215, 22, 0.6);
         }
 
+        /* Mobile Fixes */
         @media (max-width: 768px) {
             .header-layout-mobile {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
+                flex-direction: column;
                 gap: 1rem;
             }
-
-            .search-container-mobile {
-                order: 3;
+            
+            .header-logo-mobile {
+                flex-direction: row;
+                justify-content: space-between;
                 width: 100%;
-                margin-top: 1rem;
+            }
+            
+            .search-container-mobile {
+                width: 100%;
             }
             
             .header-info-mobile {
-                flex-grow: 1;
+                flex-direction: column;
+                align-items: flex-start;
             }
-
-            .header-info-mobile h1 { font-size: 1.5rem; }
-            .header-info-mobile p { display: none; }
+            
+            .header-info-mobile h1 { 
+                font-size: 1.5rem; 
+                text-align: center;
+                width: 100%;
+            }
             
             .login-button-mobile {
-                padding: 0.75rem;
-                width: 48px;
-                height: 48px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.25rem;
+                padding: 0.5rem 1rem;
+                width: auto;
+                height: auto;
+                border-radius: 9999px;
             }
-            .login-button-mobile span { display: none; }
-
+            
             .video-player-container .flex-col {
                 flex-direction: column;
             }
-
+            
             .cta-button {
                 width: 100%;
                 min-height: 48px;
@@ -214,9 +216,26 @@
             .share-option {
                 min-height: 100px;
             }
-
+            
             .footer-grid-mobile {
                 grid-template-columns: 1fr;
+            }
+            
+            .clip-card {
+                max-width: 100%;
+            }
+            
+            .video-player-container {
+                padding: 1rem;
+            }
+            
+            .video-player-section {
+                width: 100%;
+            }
+            
+            .video-info-section {
+                width: 100%;
+                margin-top: 1rem;
             }
         }
         
@@ -249,6 +268,28 @@
             font-size: 0.85rem;
             margin-top: 0.25rem;
             display: none;
+        }
+        
+        /* Animations for scrolling */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Animation for elements */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fadeInUp {
+            animation: fadeInUp 0.8s ease forwards;
         }
     </style>
 </head>
@@ -284,7 +325,7 @@
                     <label for="password" class="block text-gray-300 mb-2">كلمة المرور</label>
                     <input type="password" id="password" name="password" required 
                            class="input-field w-full py-3 px-4 rounded-lg bg-[#0f0f2a] text-white border border-gray-700 focus:outline-none transition-all">
-                    <div id="password-error" class="error-message">كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل</div>
+                    <div id="password-error" class="error-message">كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل</div>
                 </div>
                 
                 <button type="submit" class="w-full px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 rounded-lg font-bold hover:from-yellow-400 hover:to-yellow-500 transition-all cta-button flex items-center justify-center">
@@ -304,15 +345,15 @@
         <!-- Header -->
         <header class="header-gradient py-5 px-4 md:px-8 shadow-xl sticky top-0 z-50">
             <div class="max-w-7xl mx-auto">
-                <div class="flex md:flex-row justify-between items-center gap-6 header-layout-mobile">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6 header-layout-mobile">
                     <!-- Mobile-first header structure -->
-                    <div class="flex items-center gap-4 header-info-mobile">
+                    <div class="flex items-center gap-4 header-info-mobile w-full">
                         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center animate-pulse-glow">
                             <i class="fas fa-futbol text-xl text-gray-900"></i>
                         </div>
-                        <div>
-                            <h1 class="text-xl md:text-3xl font-bold header-title-glow">inazumaAR</h1>
-                            <p class="text-sm text-yellow-200 hidden md:block">أفضل اللقطات من النسخة العربية</p>
+                        <div class="flex-1">
+                            <h1 class="text-xl md:text-3xl font-bold header-title-glow text-center">inazumaAR</h1>
+                            <p class="text-sm text-yellow-200 hidden md:block text-center">أفضل اللقطات من النسخة العربية</p>
                         </div>
                     </div>
                     
@@ -322,7 +363,7 @@
                         <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
                     </div>
                     
-                    <div class="flex gap-3">
+                    <div class="flex gap-3 w-full md:w-auto justify-end">
                         <button id="logout-button" class="px-4 py-2 rounded-full bg-[#0f0f2a] hover:bg-red-500 hover:text-white transition-colors cta-button login-button-mobile">
                             <i class="fas fa-sign-out-alt md:mr-2"></i>
                             <span class="hidden md:inline">تسجيل الخروج</span>
@@ -341,7 +382,7 @@
         <main class="flex-1 py-8 px-4 md:px-8">
             <div class="max-w-7xl mx-auto">
                 <!-- Video Player Section with enhanced design -->
-                <section class="mb-12">
+                <section class="mb-12 fadeInUp">
                     <div class="video-player-container card-gradient rounded-3xl overflow-hidden shadow-2xl p-6">
                         <div class="flex flex-col md:flex-row gap-6">
                             <!-- Video Display Area -->
@@ -351,7 +392,7 @@
                                         <div class="text-center mb-8">
                                             <i class="fas fa-play-circle text-6xl text-yellow-500 mb-4 animate-pulse"></i>
                                             <h3 class="text-2xl font-bold text-gray-300 mb-2">اختر لقطة لتشغيلها</h3>
-                                            <p class="text-gray-400">استكشف أفضل اللقطات من عالم إينازوما إليفن</p>
+                                            <p class="text-gray-400">استكشف أفضل اللقطات من عالم inazumaAR</p>
                                         </div>
                                         <div class="flex gap-3">
                                             <div class="w-3 h-3 rounded-full bg-yellow-500 animate-bounce"></div>
@@ -374,13 +415,18 @@
                                     </span>
                                     <span id="video-character">غير محدد</span>
                                 </div>
+                                <div class="mt-auto">
+                                    <a id="download-btn" href="#" class="px-4 py-2 rounded-full bg-[#0f0f2a] hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button inline-flex items-center justify-center w-full">
+                                        <i class="fas fa-download mr-2"></i>تحميل اللقطة
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
                 
                 <!-- Clips Grid Section -->
-                <section>
+                <section class="fadeInUp">
                     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                         <h2 class="text-2xl font-bold text-yellow-300">
                             <i class="fas fa-film mr-2"></i>أحدث اللقطات
@@ -425,47 +471,22 @@
         <!-- Footer -->
         <footer class="bg-[#0a0e1a] py-10 px-4 mt-12">
             <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 footer-grid-mobile">
-                    <div>
-                        <h3 class="text-xl font-bold mb-4 text-yellow-300 header-title-glow">أرشيف إينازوما إليفن</h3>
-                        <p class="text-gray-400 mb-4">مرجع شامل للقطات الأكثر إثارة من النسخة العربية لمسلسل إينازوما إليفن.</p>
-                        <div class="flex gap-3">
-                            <a id="youtube-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                            <a id="twitter-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a id="discord-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
-                                <i class="fab fa-discord"></i>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 class="text-lg font-bold mb-4">روابط سريعة</h4>
-                        <ul class="space-y-2">
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">الرئيسية</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">أحدث اللقطات</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">الأكثر مشاهدة</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-500 transition-colors">اتصل بنا</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 class="text-lg font-bold mb-4">النشرة البريدية</h4>
-                        <p class="text-gray-400 mb-4">اشترك ليصلك جديد اللقطات أولا بأول</p>
-                        <div class="flex">
-                            <input type="email" placeholder="بريدك الإلكتروني" class="flex-1 py-2 px-4 rounded-l-full bg-[#1a1a4a] text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 transition-all">
-                            <button class="bg-yellow-500 text-gray-900 px-4 rounded-r-full font-medium hover:bg-yellow-400 transition-colors cta-button">
-                                اشترك
-                            </button>
-                        </div>
+                <div class="flex flex-col items-center">
+                    <div class="flex gap-3 mb-6">
+                        <a id="youtube-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a id="twitter-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a id="discord-link" href="#" target="_blank" class="w-10 h-10 rounded-full bg-[#1a1a4a] flex items-center justify-center hover:bg-yellow-500 hover:text-gray-900 transition-colors cta-button">
+                            <i class="fab fa-discord"></i>
+                        </a>
                     </div>
                 </div>
                 
                 <div class="pt-6 border-t border-gray-800 text-center text-gray-500">
-                    <p>© 2023 أرشيف إينازوما إليفن. مشروع غير ربحي من محبي المسلسل.</p>
+                    <p>© 2023 fareselnagar. جميع الحقوق محفوظة.</p>
                 </div>
             </div>
         </footer>
@@ -490,9 +511,10 @@
                 <div class="flex justify-center mb-4">
                     <i class="fas fa-exclamation-triangle text-4xl text-yellow-500 animate-pulse"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-yellow-300 mb-4">مرحباً بك في الأرشيف!</h3>
+                <h3 class="text-2xl font-bold text-yellow-300 mb-4">مرحباً بك في inazumaAR!</h3>
                 <p class="text-gray-200 mb-6 leading-relaxed">
-                    تم إنشاء هذا الموقع في يومين فقط، لذا قد تواجهون بعض الأخطاء. أي ملاحظات أو اقتراحات يمكنكم إرسالها عبر البوت الجديد. شكراً لتفهمكم!
+                    هذا الموقع تم تصميمه من قبل شخصين فقط، مما يعني احتمال تواجه أخطاء في الموقع أو أزرار لم تفعل.
+                    فلو لاحظت أي خلل أو أي شيء يحتاج التطوير، ارسل لنا في الشات بوت. شكراً لتفهمك!
                 </p>
                 <button id="close-initial-warning-modal" class="px-6 py-3 bg-yellow-500 text-gray-900 rounded-full font-bold hover:bg-yellow-400 transition-colors cta-button">فهمت</button>
             </div>
@@ -542,39 +564,53 @@
         // بيانات اللقطات مع صور مصغرة مخصصة.
         const videoClips = [
             {
+                name: "الهجمة النجمية",
                 file: "clip1.mp4", 
                 thumbnail: "photo1.png", 
-                character: "مارك إيفانز",
+                character: "inazumaAR",
+                download: "clip1.mp4"
             },
             {
+                name: "ضربة التنين",
                 file: "clip2.mp4",
                 thumbnail: "photo2.jpg",
-                character: "كابتن فريق التنين",
+                character: "inazumaAR",
+                download: "clip2.mp4"
             },
             {
+                name: "العاصفة المدمرة",
                 file: "clip3.mp4",
                 thumbnail: "photo3.jpg",
-                character: "أكسيل بلاز",
+                character: "inazumaAR",
+                download: "clip3.mp4"
             },
             {
+                name: "حاجز الزمرد",
                 file: "clip4.mp4",
                 thumbnail: "photo4.jpg",
-                character: "دارين لايتي",
+                character: "inazumaAR",
+                download: "clip4.mp4"
             },
             {
+                name: "الطيور النجمية",
                 file: "clip5.mp4",
                 thumbnail: "photo5.jpg",
-                character: "فريق ريونوسكي",
+                character: "inazumaAR",
+                download: "clip5.mp4"
             },
             {
+                name: "اليد الخارقة",
                 file: "clip6.mp4",
                 thumbnail: "photo6.jpg",
-                character: "شون فوليو",
+                character: "inazumaAR",
+                download: "clip6.mp4"
             },
             {
+                name: "الضربة النهائية",
                 file: "https://drive.google.com/file/d/1MvPp39sl85wUNpPZVtXZ-K8ADScVLBsK/view",
                 thumbnail: "photo7.jpg",
-                character: "جو سويش",
+                character: "inazumaAR",
+                download: "https://drive.google.com/uc?export=download&id=1MvPp39sl85wUNpPZVtXZ-K8ADScVLBsK"
             }
         ];
 
@@ -621,8 +657,8 @@
                 emailInput.classList.remove('border-red-500');
             }
             
-            // التحقق من كلمة المرور
-            if(passwordInput.value.length < 6) {
+            // التحقق من كلمة المرور (8 أحرف على الأقل)
+            if(passwordInput.value.length < 8) {
                 passwordError.style.display = 'block';
                 passwordInput.classList.add('border-red-500');
                 isValid = false;
@@ -712,6 +748,11 @@
                         
                         // عرض رسالة ترحيب
                         showWelcomeMessage(userData.username);
+                        
+                        // عرض رسالة التحذير
+                        setTimeout(() => {
+                            document.getElementById('initial-warning-modal').classList.remove('hidden');
+                        }, 1000);
                     }, 500);
                 } else {
                     alert('حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.');
@@ -744,6 +785,7 @@
         const chatbotSendButton = document.getElementById('chatbot-send-button');
         const chatMessages = document.getElementById('chat-messages');
         const logoutButton = document.getElementById('logout-button');
+        const downloadBtn = document.getElementById('download-btn');
 
         // وظيفة لإظهار نافذة الرسائل
         function showMessage(title, content) {
@@ -772,9 +814,10 @@
         function playVideo(index) {
             const clip = videoClips[index];
             
-            videoTitle.textContent = '*'; 
+            videoTitle.textContent = clip.name; 
             videoCharacter.textContent = clip.character;
-            videoDescription.textContent = ''; 
+            videoDescription.textContent = `شاهد أفضل لحظات ${clip.character} في مسلسل inazumaAR`; 
+            downloadBtn.href = clip.download;
             
             videoPlaceholder.style.display = 'none';
             videoPlayer.style.display = 'block';
@@ -794,7 +837,7 @@
         // دالة لإنشاء بطاقة فيديو
         function createClipCard(clip, index) {
             const clipCard = document.createElement('div');
-            clipCard.classList.add('clip-card', 'card-gradient', 'rounded-2xl', 'overflow-hidden', 'shadow-xl', 'energy-glow', 'cursor-pointer');
+            clipCard.classList.add('clip-card', 'card-gradient', 'rounded-2xl', 'overflow-hidden', 'shadow-xl', 'energy-glow', 'cursor-pointer', 'animate-on-scroll');
             
             clipCard.innerHTML = `
                 <div class="relative aspect-video" onclick="playVideo(${index})">
@@ -804,8 +847,8 @@
                     </div>
                 </div>
                 <div class="p-4">
-                    <h3 class="font-bold text-lg mb-2">*</h3>
-                    <p class="text-gray-400 text-sm mb-3"></p>
+                    <h3 class="font-bold text-lg mb-2">${clip.name}</h3>
+                    <p class="text-gray-400 text-sm mb-3">${clip.character}</p>
                     <div class="flex justify-between items-center text-sm">
                         <span class="text-yellow-400"><i class="fas fa-user mr-1"></i> ${clip.character}</span>
                     </div>
@@ -831,6 +874,7 @@
         function filterClips() {
             const searchTerm = searchInput.value.toLowerCase();
             const filteredClips = videoClips.filter(clip => 
+                clip.name.toLowerCase().includes(searchTerm) ||
                 clip.character.toLowerCase().includes(searchTerm)
             );
             renderClips(filteredClips);
@@ -848,6 +892,16 @@
                 backToTopBtn.style.opacity = '0';
                 backToTopBtn.style.visibility = 'hidden';
             }
+            
+            // Animation on scroll
+            const scrollElements = document.querySelectorAll('.animate-on-scroll');
+            scrollElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                const isVisible = elementTop < window.innerHeight * 0.9;
+                if (isVisible) {
+                    el.classList.add('animated');
+                }
+            });
         });
 
         backToTopBtn.addEventListener('click', function() {
@@ -890,7 +944,7 @@
                 if (response.ok) {
                     const botReplyDiv = document.createElement('div');
                     botReplyDiv.classList.add('flex', 'justify-start');
-                    botReplyDiv.innerHTML = `<div class="bg-[#3a3a88] p-3 rounded-xl rounded-bl-none max-w-[80%] shadow-md">شكراً لك ${userName}! تم استلام رسالتك.</div>`;
+                    botReplyDiv.innerHTML = `<div class="bg-[#3a3a88] p-3 rounded-xl rounded-bl-none max-w-[80%] shadow-md">شكراً لك ${userName}! تم استلام رسالتك وسنعمل على مراجعتها.</div>`;
                     chatMessages.appendChild(botReplyDiv);
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 } else {
@@ -940,11 +994,31 @@
                 setTimeout(() => {
                     playVideo(0);
                 }, 1500);
+                
+                // عرض رسالة التحذير إذا لم تكن قد ظهرت من قبل
+                if (!localStorage.getItem('inazuma-warning-seen')) {
+                    setTimeout(() => {
+                        initialWarningModal.classList.remove('hidden');
+                        localStorage.setItem('inazuma-warning-seen', 'true');
+                    }, 2000);
+                }
             } else {
                 // إظهار نافذة التسجيل فقط
                 loginModal.style.display = 'flex';
             }
+            
+            // إضافة تأثيرات للعناصر عند التمرير
+            setTimeout(() => {
+                const scrollElements = document.querySelectorAll('.animate-on-scroll');
+                scrollElements.forEach(el => {
+                    const elementTop = el.getBoundingClientRect().top;
+                    const isVisible = elementTop < window.innerHeight * 0.9;
+                    if (isVisible) {
+                        el.classList.add('animated');
+                    }
+                });
+            }, 500);
         });
     </script>
 </body>
-    </html>
+                                    </html>
