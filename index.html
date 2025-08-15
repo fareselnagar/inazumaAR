@@ -178,37 +178,55 @@
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
         .delay-3 { animation-delay: 0.6s; }
+
+        /* أنماط صفحة الصيانة */
+        #maintenance-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #maintenance-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #countdown-timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(247, 215, 22, 0.8);
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="header-gradient py-3 px-4 md:py-5 md:px-8 shadow-xl sticky top-0 z-50 animate-on-load">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex justify-between items-center gap-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center animate-pulse-glow">
-                        <i class="fas fa-futbol text-lg md:text-xl text-gray-900"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-lg md:text-3xl font-bold header-title-glow">inazumaAR</h1>
-                        <p class="text-xs md:text-sm text-yellow-200 hidden md:block">أفضل اللقطات من النسخة العربية</p>
-                    </div>
-                </div>
-                
-                <div class="relative flex-1 max-w-sm">
-                    <input id="search-input" type="text" placeholder="ابحث عن لقطة أو شخصية..." class="w-full py-2 px-4 pr-10 md:py-3 md:px-5 md:pr-12 rounded-full bg-[#0f0f2a] text-white text-sm md:text-base border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 transition-all">
-                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                </div>
-                
-                <div class="flex gap-3">
-                    <!-- تم إزالة زر تسجيل الخروج -->
-                </div>
-            </div>
+    <!-- Maintenance Overlay - يتم عرضه عند الحاجة -->
+    <div id="maintenance-overlay">
+        <div class="p-8 max-w-lg w-full">
+            <i class="fas fa-tools text-6xl text-yellow-500 mb-4 animate-bounce"></i>
+            <h1 class="text-3xl md:text-5xl font-extrabold text-yellow-300 mb-2">الموقع قيد الصيانة</h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-4">
+                نعتذر عن الإزعاج، نحن نعمل على تحسين الموقع. يرجى العودة لاحقاً.
+            </p>
+            <p class="text-gray-400 mb-2">سيتم فتح الموقع بعد:</p>
+            <div id="countdown-timer">00:00:00</div>
         </div>
-    </header>
+    </div>
 
     <!-- Main Content -->
-    <main class="flex-1 py-8 px-4 md:px-8">
+    <main id="main-content" class="flex-1 py-8 px-4 md:px-8 hidden">
         <div class="max-w-7xl mx-auto">
             <!-- Clips Grid Section -->
             <section class="animate-on-load delay-1">
@@ -248,13 +266,33 @@
         </div>
     </main>
 
-    <!-- Chatbot Button -->
-    <button id="chatbot-button" class="fixed bottom-6 left-6 w-14 h-14 rounded-full bg-yellow-500 text-gray-900 shadow-lg flex items-center justify-center transition-all hover:scale-110 cta-button z-50 animate-on-load delay-3">
-        <i class="fas fa-comment-dots text-2xl"></i>
-    </button>
+    <!-- Header, Footer, and other elements are also hidden initially -->
+    <header id="main-header" class="header-gradient py-3 px-4 md:py-5 md:px-8 shadow-xl sticky top-0 z-50 animate-on-load hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center animate-pulse-glow">
+                        <i class="fas fa-futbol text-lg md:text-xl text-gray-900"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg md:text-3xl font-bold header-title-glow">inazumaAR</h1>
+                        <p class="text-xs md:text-sm text-yellow-200 hidden md:block">أفضل اللقطات من النسخة العربية</p>
+                    </div>
+                </div>
+                
+                <div class="relative flex-1 max-w-sm">
+                    <input id="search-input" type="text" placeholder="ابحث عن لقطة أو شخصية..." class="w-full py-2 px-4 pr-10 md:py-3 md:px-5 md:pr-12 rounded-full bg-[#0f0f2a] text-white text-sm md:text-base border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 transition-all">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                </div>
+                
+                <div class="flex gap-3">
+                    <!-- تم إزالة زر تسجيل الخروج -->
+                </div>
+            </div>
+        </div>
+    </header>
 
-    <!-- Footer -->
-    <footer class="bg-[#0a0e1a] py-10 px-4 mt-12 animate-on-load delay-2">
+    <footer id="main-footer" class="bg-[#0a0e1a] py-10 px-4 mt-12 animate-on-load delay-2 hidden">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col items-center">
                 <div class="flex gap-3 mb-6">
@@ -276,8 +314,13 @@
         </div>
     </footer>
 
+    <!-- Chatbot Button -->
+    <button id="chatbot-button" class="fixed bottom-6 left-6 w-14 h-14 rounded-full bg-yellow-500 text-gray-900 shadow-lg flex items-center justify-center transition-all hover:scale-110 cta-button z-50 animate-on-load delay-3 hidden">
+        <i class="fas fa-comment-dots text-2xl"></i>
+    </button>
+    
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-yellow-500 text-gray-900 shadow-lg flex items-center justify-center transition-all opacity-0 invisible hover:scale-110 cta-button">
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-yellow-500 text-gray-900 shadow-lg flex items-center justify-center transition-all opacity-0 invisible hover:scale-110 cta-button hidden">
         <i class="fas fa-arrow-up"></i>
     </button>
 
@@ -386,6 +429,15 @@
         const chatbotInput = document.getElementById('chatbot-input');
         const chatbotSendButton = document.getElementById('chatbot-send-button');
         const chatMessages = document.getElementById('chat-messages');
+
+        // عناصر صفحة الصيانة
+        const maintenanceOverlay = document.getElementById('maintenance-overlay');
+        const mainContent = document.getElementById('main-content');
+        const mainHeader = document.getElementById('main-header');
+        const mainFooter = document.getElementById('main-footer');
+        const countdownTimer = document.getElementById('countdown-timer');
+        const backToTopButton = document.getElementById('back-to-top');
+        const chatbotButtonMain = document.getElementById('chatbot-button');
 
         // وظيفة لإظهار نافذة الرسائل
         function showMessage(title, content) {
@@ -553,9 +605,55 @@
             }
         });
 
+        //
+        // وظيفة إدارة وضع الصيانة
+        //
+        function handleMaintenanceMode() {
+            // قم بتعيين وقت انتهاء الصيانة لـ 4 ساعات من الآن
+            const maintenanceEndTime = new Date().getTime() + (4 * 60 * 60 * 1000); 
+
+            // تحقق من localStorage إذا كان وقت انتهاء الصيانة مخزناً
+            const storedEndTime = localStorage.getItem('maintenanceEndTime');
+            let countdownEnd = storedEndTime ? parseInt(storedEndTime, 10) : maintenanceEndTime;
+
+            // إذا كان الوقت المخزن قد انتهى بالفعل، قم بتعيين وقت جديد
+            if (countdownEnd < new Date().getTime()) {
+                countdownEnd = maintenanceEndTime;
+                localStorage.setItem('maintenanceEndTime', countdownEnd);
+            }
+
+            // تحديث العداد كل ثانية
+            const updateCountdown = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = countdownEnd - now;
+
+                if (distance < 0) {
+                    // الوقت انتهى، إظهار المحتوى الرئيسي
+                    clearInterval(updateCountdown);
+                    maintenanceOverlay.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    mainHeader.classList.remove('hidden');
+                    mainFooter.classList.remove('hidden');
+                    backToTopButton.classList.remove('hidden');
+                    chatbotButtonMain.classList.remove('hidden');
+                    renderClips(videoClips);
+                    return;
+                }
+
+                // حساب الأوقات المتبقية
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // تنسيق وعرض الوقت
+                countdownTimer.textContent = 
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
         // عند تحميل الصفحة
         window.addEventListener('load', function() {
-            renderClips(videoClips);
+            handleMaintenanceMode();
         });
     </script>
 </body>
