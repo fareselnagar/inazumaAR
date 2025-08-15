@@ -51,16 +51,15 @@
         }
 
         /* تحسينات على تأثير النيون واللمعان والضباب */
+        /* تعديل الإطار ليكون دائمًا متطابقًا مع انحناء الفيديو */
         .neon-glow-border {
-            border: 2px solid transparent;
-            border-image: linear-gradient(45deg, var(--accent), transparent) 1;
-            box-shadow: 0 0 10px rgba(247, 215, 22, 0.5);
+            border: 3px solid rgba(247, 215, 22, 0.4); /* إطار دائم وشفاف قليلاً */
+            box-shadow: 0 0 10px rgba(247, 215, 22, 0.5); /* توهج دائم خفيف */
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* تأثير انتقال أكثر سلاسة */
         }
         
         .neon-glow-border:hover {
-            border: 2px solid var(--accent);
-            /* إضافة ضباب خفيف حول الصورة المصغرة */
+            border: 3px solid var(--accent); /* يصبح الإطار أكثر وضوحًا عند التمرير */
             box-shadow: 0 0 15px rgba(247, 215, 22, 0.8), 0 0 30px rgba(247, 215, 22, 0.5), 0 0 50px rgba(247, 215, 22, 0.2);
             transform: scale(1.03);
         }
