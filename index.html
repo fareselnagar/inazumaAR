@@ -609,23 +609,22 @@
         // وظيفة إدارة وضع الصيانة
         //
         function handleMaintenanceMode() {
-            // قم بتعيين وقت انتهاء الصيانة لـ 4 ساعات من الآن
-            const maintenanceEndTime = new Date().getTime() + (4 * 60 * 60 * 1000); 
+            // قم بالتحقق مما إذا كان هناك وقت نهاية للصيانة مخزن بالفعل في Local Storage
+            let maintenanceEndTime = localStorage.getItem('maintenanceEndTime');
+            const now = new Date().getTime();
 
-            // تحقق من localStorage إذا كان وقت انتهاء الصيانة مخزناً
-            const storedEndTime = localStorage.getItem('maintenanceEndTime');
-            let countdownEnd = storedEndTime ? parseInt(storedEndTime, 10) : maintenanceEndTime;
-
-            // إذا كان الوقت المخزن قد انتهى بالفعل، قم بتعيين وقت جديد
-            if (countdownEnd < new Date().getTime()) {
-                countdownEnd = maintenanceEndTime;
-                localStorage.setItem('maintenanceEndTime', countdownEnd);
+            // إذا لم يكن هناك وقت مخزن أو كان الوقت قد انتهى بالفعل
+            if (!maintenanceEndTime || parseInt(maintenanceEndTime) < now) {
+                // قم بتعيين وقت نهاية جديد (4 ساعات من الآن)
+                maintenanceEndTime = now + (4 * 60 * 60 * 1000);
+                // واحفظه في Local Storage
+                localStorage.setItem('maintenanceEndTime', maintenanceEndTime);
             }
 
             // تحديث العداد كل ثانية
             const updateCountdown = setInterval(() => {
-                const now = new Date().getTime();
-                const distance = countdownEnd - now;
+                const currentNow = new Date().getTime();
+                const distance = maintenanceEndTime - currentNow;
 
                 if (distance < 0) {
                     // الوقت انتهى، إظهار المحتوى الرئيسي
